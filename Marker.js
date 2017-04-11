@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class Marker {
     constructor(lat, lon, angle = null) {
         this._lat = lat;
