@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const pg = require("pg");
 const config = require("./config");
 const co = require('co');

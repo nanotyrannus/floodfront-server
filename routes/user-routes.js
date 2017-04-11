@@ -1,6 +1,8 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const Router = require("koa-router");
 const database_1 = require("../shared/database");
+const config = require("../shared/config");
 // import fs = require("fs")
 const fs = require("fs-extra");
 const body = require("koa-better-body");
@@ -119,7 +121,7 @@ exports.userRouter
     console.log(this.request.fields);
     console.log(this.request.files);
     console.log(this.request.files[0].path);
-    let file = fs.copySync(this.request.files[0].path, `./uploads/${this.request.fields.marker_id}.jpg`);
+    let file = fs.copySync(this.request.files[0].path, `${config.appRoot}/uploads/${this.request.fields.marker_id}.jpg`);
     console.log(this.request.body);
     this.body = "hey";
     yield next;
