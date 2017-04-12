@@ -4,7 +4,7 @@ import { userRouter } from "./routes/user-routes"
 import { query } from "./shared/database"
 import http = require("http")
 import https = require("https")
-import enforceSsl = require("koa-sslify")
+// import enforceSsl = require("koa-sslify")
 import fs = require("fs")
 import send = require("koa-send")
 
@@ -33,7 +33,7 @@ co.wrap(function* () {
     // app.use(function* () {
     //     console.log(this.request.files)
     // })
-    app.use(enforceSsl())
+    // app.use(enforceSsl())
     app.use(cors())
     app.use(function* (next) {
     console.log(`Requesting ${ this.path }`)
