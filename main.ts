@@ -37,19 +37,19 @@ co.wrap(function* () {
     app.use(cors())
     app.use(function* (next) {
     console.log(`Requesting ${ this.path }`)
-    if (this.path === "/") {
-        yield send(this, "index.html", { "root" : config.appRoot})
-    } else if (this.path.substring(0, 14) === "/node_modules/") {
-        yield send(this, this.path, { "root" : `${ config.appRoot }`})
-    } else { //if (this.path.substring(0,5) === "/dist") {
-        try {
-            fs.accessSync(`${config.appRoot}${this.path}`, fs.constants.F_OK)
-            yield send(this, `${ this.path }`, { "root" : config.appRoot })
-        } catch (e) {
-            console.log(`${this.path} file not found.`)
-            yield next
-        }
-    }
+    // if (this.path === "/") {
+    //     yield send(this, "index.html", { "root" : config.appRoot})
+    // } else if (this.path.substring(0, 14) === "/node_modules/") {
+    //     yield send(this, this.path, { "root" : `${ config.appRoot }`})
+    // } else { //if (this.path.substring(0,5) === "/dist") {
+    //     try {
+    //         fs.accessSync(`${config.appRoot}${this.path}`, fs.constants.F_OK)
+    //         yield send(this, `${ this.path }`, { "root" : config.appRoot })
+    //     } catch (e) {
+    //         console.log(`${this.path} file not found.`)
+    //         yield next
+    //     }
+    // }
     app.use(userRouter.routes())
 })
     app.listen(config.port)
