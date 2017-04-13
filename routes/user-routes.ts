@@ -120,7 +120,7 @@ userRouter
         let result = yield query(`
             DELETE FROM marker
             WHERE id=$1
-        `[this.params.markerId])
+        `, [this.params.markerId])
         this.body = {
             "message" : `Marker ${this.params.markerId} deleted.`,
             "id" : this.params.markerId
