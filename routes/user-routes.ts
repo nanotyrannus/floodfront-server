@@ -73,12 +73,12 @@ userRouter
         let userId = (yield query(`
             SELECT id
             FROM app_user
-            WHERE email=$1 AND created >= NOW()::date
+            WHERE email=$1
         `, [email])).rows[0].id
         let result = (yield query(`
             SELECT *
             FROM marker
-            WHERE user_id=$1 AND event_id=$2
+            WHERE user_id=$1 AND event_id=$2 AND created >= NOW()::date
         `, [userId, eventId])).rows
         this.body = {
             "markers": result
