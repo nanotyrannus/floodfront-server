@@ -116,6 +116,15 @@ userRouter
     })
     .post("/marker/:markerId/delete", body(), function* () {
         console.log(`POST /marker/${this.params.markerId}/delete\n`, this.request.fields)
+        let req = this.request.fields
+        let result = yield query(`
+            DELETE FROM marker
+            WHERE id=$!
+        `[this.params.markerId])
+        this.body = {
+            "message" : `Marker ${this.params.markerId} deleted.`,
+            "id" : this.params.markerId
+        }
     })
     .delete("/marker/markerId", function* () { // Delete marker
 
