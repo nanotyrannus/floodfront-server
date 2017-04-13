@@ -14,10 +14,10 @@ const co: any = require("co")
 const cors: any = require("koa-cors")
 const app = new Koa()
 
-const sslOptions = {
-    "key" : fs.readFileSync(config.keyPath),
-    "cert" : fs.readFileSync(config.certPath)
-}
+// const sslOptions = {
+//     "key" : fs.readFileSync(config.keyPath),
+//     "cert" : fs.readFileSync(config.certPath)
+// }
 
 
 co.wrap(function* () {

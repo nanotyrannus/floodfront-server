@@ -16,10 +16,10 @@ userRouter
             console.log("um")
         }
     })
-    .post("/ping", body(),function* () {
+    .post("/ping", body(), function* () {
         console.log(`from ping:`, this.request.body)
         this.body = {
-            "recieved" : this.request.fields
+            "recieved": this.request.fields
         }
     })
     .post("/login", body(), function* () {
@@ -36,12 +36,12 @@ userRouter
                 INSERT INTO app_user (email)
                 VALUES ($1)
             `, [this.request.fields.email])
-            console.log(`New email: ${ this.request.fields.email }`)
+            console.log(`New email: ${this.request.fields.email}`)
         } else {
-            console.log(`Returning user: ${ this.request.fields.email }`)
+            console.log(`Returning user: ${this.request.fields.email}`)
         }
 
-        console.log(`FROM /LOGIN`,this.request.fields)
+        console.log(`FROM /LOGIN`, this.request.fields)
         this.body = "whatever"
     })
     .get("/event", function* () {
@@ -68,7 +68,7 @@ userRouter
         let eventId = this.params.eventId
         let email = this.request.fields.email
         if (email == null || eventId == null) {
-            throw new Error(`Bad request: ${ email } ${ eventId }`)
+            throw new Error(`Bad request: ${email} ${eventId}`)
         }
         let userId = (yield query(`
             SELECT id
@@ -81,7 +81,7 @@ userRouter
             WHERE user_id=$1 AND event_id=$2
         `, [userId, eventId])).rows
         this.body = {
-            "markers" : result
+            "markers": result
         }
     })
     .post("/marker/:eventId", body(), function* () { // Create marker
@@ -94,13 +94,13 @@ userRouter
             WHERE email=$1
         `, [req.email])).rows[0].id
         let result = yield query(`
-            INSERT INTO marker (user_id, event_id, lon, lat, heading)
-            VALUES ($1, $2, $3, $4, $5)
+            INSERT INTO marker (user_id, event_id, lon, lat, heading, marker_type)
+            VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING id
-        `, [userId, eventId, req.lon, req.lat, req.heading])
+        `, [userId, eventId, req.lon, req.lat, req.heading, req.type])
         this.body = {
-            "message" : `Marker recieved: ${ result.rows[0].id } for event ${ eventId }`,
-            "id" : result.rows[0].id
+            "message": `Marker recieved: ${result.rows[0].id} for event ${eventId}`,
+            "id": result.rows[0].id
         }
     })
     .post("/marker/:markerId/update", body(), function* () { //Update marker
@@ -111,8 +111,11 @@ userRouter
             UPDATE marker
             SET lat=$1, lon=$2
             WHERE id=$3
-        `,[req.lat, req.lon, this.params.markerId])
-        this.body = {"message" : `Marker ${ this.params.markerId } updated.`}
+        `, [req.lat, req.lon, this.params.markerId])
+        this.body = { "message": `Marker ${this.params.markerId} updated.` }
+    })
+    .post("/marker/:markerId/delete", body(), function* () {
+        console.log(`POST /marker/${this.params.markerId}/delete\n`, this.request.fields)
     })
     .delete("/marker/markerId", function* () { // Delete marker
 
@@ -121,7 +124,7 @@ userRouter
         console.log(this.request.fields)
         console.log(this.request.files)
         console.log(this.request.files[0].path)
-        let file = fs.copySync(this.request.files[0].path, `${ config.appRoot }/uploads/${ this.request.fields.marker_id }.jpg`)
+        let file = fs.copySync(this.request.files[0].path, `${config.appRoot}/uploads/${this.request.fields.marker_id}.jpg`)
         console.log(this.request.body)
         this.body = "hey"
         yield next
