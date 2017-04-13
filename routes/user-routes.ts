@@ -119,7 +119,7 @@ userRouter
         let req = this.request.fields
         let result = yield query(`
             DELETE FROM marker
-            WHERE id=$!
+            WHERE id=$1
         `[this.params.markerId])
         this.body = {
             "message" : `Marker ${this.params.markerId} deleted.`,
