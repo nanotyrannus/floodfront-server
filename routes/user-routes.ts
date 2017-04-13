@@ -73,7 +73,7 @@ userRouter
         let userId = (yield query(`
             SELECT id
             FROM app_user
-            WHERE email=$1
+            WHERE email=$1 AND created >= NOW()::date
         `, [email])).rows[0].id
         let result = (yield query(`
             SELECT *
