@@ -84,6 +84,18 @@ userRouter
             "markers": result
         }
     })
+    .post("marker/:markerId/description", body(), function* () {
+        let markerId = this.params.markerId
+        let req = this.request.fields
+        let result = yield query(`
+            UPDATE marker
+            SET description=$1
+            WHERE id=$2
+        `, [req.description, markerId])
+        this.body = {
+            "message" : `Description for ${markerId} recieved`
+        }
+    })
     .post("/marker/:eventId", body(), function* () { // Create marker
         console.log(this.request.fields)
         let req = this.request.fields
@@ -122,8 +134,8 @@ userRouter
             WHERE id=$1
         `, [this.params.markerId])
         this.body = {
-            "message" : `Marker ${this.params.markerId} deleted.`,
-            "id" : this.params.markerId
+            "message": `Marker ${this.params.markerId} deleted.`,
+            "id": this.params.markerId
         }
     })
     .delete("/marker/markerId", function* () { // Delete marker
