@@ -106,10 +106,10 @@ userRouter
             WHERE email=$1
         `, [req.email])).rows[0].id
         let result = yield query(`
-            INSERT INTO marker (user_id, event_id, lon, lat, heading, marker_type)
-            VALUES ($1, $2, $3, $4, $5, $6)
+            INSERT INTO marker (user_id, event_id, lon, lat, heading, marker_type, error_margin)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
             RETURNING id
-        `, [userId, eventId, req.lon, req.lat, req.heading, req.type])
+        `, [userId, eventId, req.lon, req.lat, req.heading, req.type, req.errorMargin])
         this.body = {
             "message": `Marker recieved: ${result.rows[0].id} for event ${eventId}`,
             "id": result.rows[0].id
