@@ -84,7 +84,7 @@ userRouter
             "markers": result
         }
     })
-    .post("marker/:markerId/description", body(), function* () {
+    .post("/marker/:markerId/description", body(), function* () {
         let markerId = this.params.markerId
         let req = this.request.fields
         let result = yield query(`
